@@ -1,0 +1,23 @@
+name: Proposta di miglioramento
+description: Proponi una funzionalità o un miglioramento della consultazione.
+title: "[Proposta] "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Esigenza
+      description: Quale problema di consultazione vorresti risolvere?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Descrivi il comportamento desiderato e, se utile, un esempio.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative o fonti utili
+      description: Eventuali alternative, dataset pubblici o riferimenti.

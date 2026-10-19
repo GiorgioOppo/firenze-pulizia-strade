@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Avvisi ufficiali sullo spazzamento
+    url: https://www.plures.it/it-it/cittadini/cittadini/servizi/servizi-ai-cittadini/spazzamento-strade
+    about: Per informazioni ufficiali sui calendari e sul servizio.
+  - name: Sicurezza e segnalazioni riservate
+    url: https://github.com/GiorgioOppo/firenze-pulizia-strade/blob/main/SECURITY.md
+    about: Leggi le istruzioni prima di pubblicare dettagli di sicurezza.

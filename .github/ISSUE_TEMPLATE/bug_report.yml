@@ -1,0 +1,33 @@
+name: Bug del sito
+description: Segnala un problema di funzionamento della mappa.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Per calendari errati usa Correzione dei dati. Per problemi di sicurezza segui SECURITY.md. Non inserire targhe, recapiti o altri dati personali."
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: Che cosa succede e che cosa ti aspettavi?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passaggi per riprodurre il problema
+      description: Indica azioni, strada o codice tratto e date/orari di esempio; non occorre comunicare dove parcheggi realmente.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser e dispositivo
+      placeholder: "Es. Firefox su computer, Safari su iPhone"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Altre informazioni
+      description: Eventuali messaggi di errore o schermate con dati personali oscurati.

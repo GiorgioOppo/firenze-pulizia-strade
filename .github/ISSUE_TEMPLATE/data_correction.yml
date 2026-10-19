@@ -1,0 +1,28 @@
+name: Correzione dei dati
+description: Segnala un calendario, un orario o una geometria da controllare.
+title: "[Dati] "
+body:
+  - type: markdown
+    attributes:
+      value: "La mappa usa una copia statica del 19 ottobre 2026. La segnalazione non sostituisce i canali ufficiali e non modifica i cartelli sul posto. Non inserire targhe o posizione della tua auto."
+  - type: input
+    id: street
+    attributes:
+      label: Strada e tratto
+      description: Riporta il nome e, se disponibile, il codice tratto mostrato dalla mappa.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Informazione da correggere
+      description: Indica il calendario mostrato e quello che ritieni corretto, specificando i giorni e gli orari.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Fonte e data della verifica
+      description: Collega una fonte pubblica ufficiale oppure descrivi il cartello e la data in cui lo hai verificato. Oscura persone, targhe e dati privati nelle eventuali foto.
+    validations:
+      required: true
