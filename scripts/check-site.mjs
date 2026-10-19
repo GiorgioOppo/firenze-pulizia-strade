@@ -3,7 +3,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { decodeRoads } from '../docs/assets/js/data.js';
+import { decodeRoads, mergeStreetNetwork } from '../docs/assets/js/data.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const site = path.join(root, 'docs');
@@ -64,10 +64,15 @@ const dataRoot = path.join(site, 'assets/data');
 const data = JSON.parse(await readFile(path.join(dataRoot, 'streets.json'), 'utf8'));
 const metadata = JSON.parse(await readFile(path.join(dataRoot, 'metadata.json'), 'utf8'));
 const roads = decodeRoads(data);
+const network = JSON.parse(await readFile(path.join(dataRoot, 'street-network.json'), 'utf8'));
+const mapped = mergeStreetNetwork(data, network);
 assert.equal(roads.length, metadata.counts.road_segments, 'Conteggio tratti nei metadati');
 assert.equal(data.names.length, metadata.counts.streets, 'Conteggio strade nei metadati');
 assert.equal(data.schedules.length, metadata.counts.schedules, 'Conteggio calendari nei metadati');
 assert.equal(data.arcs.reduce((sum, arc) => sum + arc[1].length, 0), metadata.counts.segment_schedule_pairs);
+assert.equal(mapped.roads.length, metadata.coverage.mapped_segments_total, 'Conteggio tratti cartografici');
+assert.equal(mapped.names.length, metadata.coverage.mapped_streets_total, 'Conteggio strade cartografiche');
+assert.equal(mapped.roads.filter(road => !road.properties.schedule.length).length, metadata.coverage.cartographic_segments_added);
 assert.equal(metadata.automatic_updates, false, 'La copia dei dati è statica');
 assert.match(metadata.snapshot_date, /^\d{4}-\d{2}-\d{2}$/);
 for (const source of metadata.sources) {
@@ -75,4 +80,4 @@ for (const source of metadata.sources) {
   for (const filename of source.files) await checkReference(path.join(dataRoot, 'metadata.json'), filename, true);
 }
 assert.ok(files.includes(path.join(dataRoot, 'labels.json')));
-console.log(`OK: ${files.length} file pubblicabili, ${references} riferimenti, ${roads.length} tratti.`);
+console.log(`OK: ${files.length} file pubblicabili, ${references} riferimenti, ${roads.length} tratti con calendario, ${mapped.roads.length} tratti mappati.`);

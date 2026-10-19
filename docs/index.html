@@ -8,9 +8,9 @@
   <meta name="description" content="Consulta la mappa dei turni di pulizia strade a Firenze. Cerca una via e confronta il lavaggio con il tuo periodo di sosta.">
   <title>Pulizia strade Firenze · Mappa e orari di lavaggio</title>
   <link rel="stylesheet" href="./assets/css/base.css">
-  <link rel="stylesheet" href="./assets/css/map.css">
+  <link rel="stylesheet" href="./assets/css/map.css?v=20261019-coverage">
   <script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-  <script type="module" src="./assets/js/app.js"></script>
+  <script type="module" src="./assets/js/app.js?v=20261019-coverage"></script>
 </head>
 <body>
   <main id="firenze-lavaggio" aria-busy="true">
@@ -47,7 +47,7 @@
     <section class="fl-map" aria-label="Mappa interattiva">
       <svg role="img" aria-labelledby="fl-map-title" aria-describedby="fl-map-description">
         <title id="fl-map-title">Mappa dei tratti stradali di Firenze</title>
-        <desc id="fl-map-description">Linee continue evidenziano i lavaggi durante la sosta, linee tratteggiate i turni da verificare. Le altre strade non hanno lavaggi calcolati nell'intervallo. Usa anche la ricerca per strada e il selettore del tratto sotto la mappa.</desc>
+        <desc id="fl-map-description">Linee colorate continue evidenziano i lavaggi durante la sosta, linee arancioni tratteggiate i turni da verificare. Le linee grigie continue indicano strade con calendario noto e nessun lavaggio calcolato nell'intervallo. Le linee grigie puntinate indicano strade senza calendario disponibile e non confermano che si possa parcheggiare. Usa anche la ricerca per strada e il selettore del tratto sotto la mappa.</desc>
       </svg>
       <div class="fl-zoom" role="group" aria-label="Vista della mappa">
         <button class="btn" type="button" data-zoom-in aria-label="Ingrandisci" disabled>+</button>
@@ -60,7 +60,8 @@
     <div class="fl-legend text-small" aria-label="Legenda">
       <span class="fl-key"><span class="fl-line risk" aria-hidden="true"></span>Lavaggio durante la sosta</span>
       <span class="fl-key"><span class="fl-line check" aria-hidden="true"></span>Turno da verificare</span>
-      <span class="fl-key"><span class="fl-line" aria-hidden="true"></span>Nessun lavaggio calcolato</span>
+      <span class="fl-key"><span class="fl-line" aria-hidden="true"></span>Nessun lavaggio calcolato · calendario noto</span>
+      <span class="fl-key"><span class="fl-line missing" aria-hidden="true"></span>Calendario non disponibile</span>
     </div>
     <section class="fl-detail card" data-detail aria-label="Calendario del tratto" aria-live="polite">Calendario del tratto · seleziona una strada o tocca la mappa</section>
 
@@ -68,6 +69,7 @@
       <p class="text-small text-muted">Mappa non ufficiale, senza aggiornamento automatico. Solo lavaggi: disponibilità degli stalli, ZTL e altri divieti non inclusi. Fa fede la segnaletica sul posto.</p>
       <div class="fl-footer text-small text-muted">
         <a href="https://opendata.comune.fi.it/page_dataset_show?id=pulizia-strade" target="_blank" rel="noopener">Lavaggi: Comune di Firenze / Alia · CC BY-NC-SA 4.0</a>
+        <a href="https://opendata.comune.fi.it/page_dataset_show?id=73025d49-66ce-4906-93b8-1c4bc8d64234" target="_blank" rel="noopener">Stradario: Comune di Firenze · CC BY 4.0</a>
         <span>Base: Comune di Firenze e Autorità di Bacino dell’Arno · CC BY 4.0</span>
         <a href="https://www.plures.it/it-it/cittadini/cittadini/servizi/servizi-ai-cittadini/spazzamento-strade" target="_blank" rel="noopener">Calendario e avvisi ufficiali</a>
         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Dati elaborati: CC BY-NC-SA 4.0</a>

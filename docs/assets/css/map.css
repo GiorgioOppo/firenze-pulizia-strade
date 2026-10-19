@@ -114,6 +114,10 @@
   border-top-style: dashed;
 }
 
+.fl-line.missing {
+  border-top-style: dotted;
+}
+
 .fl-detail {
   margin: 12px 0;
 }
@@ -172,6 +176,14 @@
   stroke: var(--viz-series-2);
   stroke-width: 2.1px;
   stroke-dasharray: 4 3;
+}
+
+.fl-missing {
+  fill: none;
+  stroke: var(--muted-foreground);
+  stroke-width: 2.3px;
+  stroke-linecap: round;
+  stroke-dasharray: 1 4;
 }
 
 .fl-highlight {

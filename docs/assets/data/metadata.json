@@ -60,6 +60,31 @@
       "license_url": "https://creativecommons.org/licenses/by/4.0/",
       "original_dataset_modified": "2013-01-16",
       "processing": "Selected 17 original line features whose source attribute NOME ELEMENTO NEL SISTEMA INFORMATIVO ACQUE equals FIUME ARNO; KML WGS84 converted to GeoJSON; lon/lat rounded to 6 decimals."
+    },
+    {
+      "title": "Tratti stradali",
+      "publisher": "Comune di Firenze",
+      "rights_holder": "Servizio Statistica e Toponomastica",
+      "url": "https://opendata.comune.fi.it/page_dataset_show?id=73025d49-66ce-4906-93b8-1c4bc8d64234",
+      "download": "https://datigis.comune.fi.it/shp/trattistradali.zip",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "snapshot_date": "2026-10-19",
+      "dataset_modified": "2026-10-19T01:30:07",
+      "files": [
+        "street-network.json"
+      ],
+      "source_crs": "EPSG:3003 (Monte Mario / Italy zone 1), with the TOWGS84 transform supplied by the original .prj",
+      "processing": "Conversione SHP in WGS84 usando il PRJ originale; selezione per nomi completamente assenti dal dataset lavaggi, normalizzando preposizioni e punteggiatura; coordinate a cinque decimali. ID dello stradario nel namespace topo:, senza collegamento ai cod_arco dei lavaggi e senza orari dedotti."
     }
-  ]
+  ],
+  "coverage": {
+    "cartographic_streets_added": 920,
+    "cartographic_segments_added": 3113,
+    "mapped_streets_total": 2457,
+    "mapped_segments_total": 8689,
+    "source_street_register_names": 2438,
+    "source_street_register_segments": 10290,
+    "selection": "Only street names absent from the cleaning dataset after canonicalization of street types, prepositions, spaces and punctuation. All additional segments have no cleaning calendar."
+  }
 }

@@ -1,9 +1,9 @@
-import { DAY, parseWall, analyzeSchedule } from './calendar.js';
-import { loadDataset } from './data.js';
-import { currentRomeTime, normalizeStreetName } from './format.js';
-import { createMap } from './map.js';
+import { DAY, parseWall, analyzeSchedule, statusForRoad } from './calendar.js?v=20261019-coverage';
+import { loadDataset } from './data.js?v=20261019-coverage';
+import { currentRomeTime, normalizeStreetName, findStreetMatches } from './format.js?v=20261019-coverage';
+import { createMap } from './map.js?v=20261019-coverage';
 import { createPreferenceStore } from './storage.js';
-import { populateStreetSuggestions, renderDetails, renderStatusSummary } from './ui.js';
+import { populateStreetSuggestions, renderDetails, renderStatusSummary } from './ui.js?v=20261019-coverage';
 
 const root = document.getElementById('firenze-lavaggio');
 
@@ -81,7 +81,7 @@ async function main() {
       + 'con partenza successiva all’arrivo ed entro 366 giorni.';
     if (state.valid) {
       state.analysis = schedules.map(schedule => analyzeSchedule(schedule, state.from, state.until));
-      state.statuses = roads.map(road => Math.max(...road.properties.schedule.map(id => state.analysis[id].status)));
+      state.statuses = roads.map(road => statusForRoad(road.properties.schedule, state.analysis));
     } else {
       state.analysis = [];
       state.statuses = null;
@@ -96,8 +96,7 @@ async function main() {
     event.preventDefault();
     const term = normalizeStreetName(search.value);
     if (!term) return;
-    const matches = names.map((name, index) => ({ name, index }))
-      .filter(item => normalizeStreetName(item.name).includes(term));
+    const matches = findStreetMatches(search.value, names);
     const exact = matches.find(item => normalizeStreetName(item.name) === term);
     if (!exact && matches.length !== 1) {
       result.textContent = matches.length

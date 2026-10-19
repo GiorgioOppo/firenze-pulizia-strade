@@ -73,3 +73,9 @@ export function nextConfirmedEvent(schedule, from) {
   return scheduleEvents(schedule, from, from + 370 * DAY)
     .find(event => !event.uncertain) || null;
 }
+
+// Status 3 is missing source data, never a successful "no washing" result.
+export function statusForRoad(scheduleIds, analysis) {
+  if (!scheduleIds.length) return 3;
+  return Math.max(...scheduleIds.map(id => analysis[id].status));
+}

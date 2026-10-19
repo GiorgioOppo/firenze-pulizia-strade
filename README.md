@@ -2,7 +2,7 @@
 
 Mappa interattiva dei calendari di lavaggio stradale, per confrontare i turni con il periodo in cui si intende lasciare l'auto.
 
-Il sito permette di impostare arrivo e partenza, cercare una strada e selezionare i singoli tratti. I turni pari/dispari non documentati e gli orari incongruenti vengono segnalati come da verificare, senza inventare una cadenza.
+Il sito permette di impostare arrivo e partenza, cercare una strada e selezionare i singoli tratti. Le strade prive di calendario sono indicate come **calendario non disponibile**. I turni pari/dispari non documentati e gli orari incongruenti vengono segnalati come da verificare, senza inventare una cadenza.
 
 ## Sito
 
@@ -29,6 +29,7 @@ docs/
 │   │   └── storage.js      # Preferenze locali
 │   └── data/
 │       ├── streets.json    # Geometrie e calendari dei tratti
+│       ├── street-network.json # Strade aggiuntive senza calendario
 │       ├── districts.geojson
 │       ├── river.geojson
 │       ├── labels.json
@@ -36,7 +37,8 @@ docs/
 ├── .nojekyll
 └── robots.txt
 scripts/
-└── check-site.mjs          # Controlli della struttura pubblicabile
+├── check-site.mjs          # Controlli della struttura pubblicabile
+└── import-street-network.mjs # Import dello stradario già convertito in WGS84
 tests/
 ├── calendar.test.js
 ├── storage.test.js
@@ -69,7 +71,13 @@ Per caricare D3 è necessaria una connessione Internet. La cartella `work/`, se 
 
 ## Dati e limiti
 
-La copia dei dati è stata generata il **19 ottobre 2026**. Il sito non si aggiorna automaticamente. I 6.269 record originali sono raggruppati in 5.576 tratti, conservando tutti i turni distinti per ciascun tratto.
+La copia dei dati è stata generata il **19 ottobre 2026**. Il sito non si aggiorna automaticamente. I 6.269 record originali di pulizia sono raggruppati in 5.576 tratti e 1.537 nomi, conservando tutti i turni distinti per ciascun tratto. Il confronto con GeoJSON e SHP originali conferma che nessun tratto o calendario è stato escluso dall'importazione.
+
+Il dataset di pulizia non comprende tutti i nomi stradali della città. `street-network.json` aggiunge le geometrie del dataset comunale **Tratti stradali** per i nomi completamente assenti dai calendari, anche nel centro storico. La selezione confronta i nomi normalizzati; non associa i codici dei due dataset e non attribuisce calendari ai nuovi tratti. I conteggi della copertura integrata sono riportati nel campo `coverage` di [`metadata.json`](docs/assets/data/metadata.json).
+
+**Calendario non disponibile** significa che non ci sono dati di pulizia per quella strada. È diverso da **nessun lavaggio nell'intervallo**, che deriva dal confronto tra un calendario disponibile e il periodo di sosta scelto. Nessuno dei due stati certifica che si possa parcheggiare.
+
+La ricerca riconosce i nomi anche senza preposizioni e con apostrofi diversi: per esempio, `piazza Duomo` trova `PIAZZA DEL DUOMO`.
 
 Le date e gli orari vengono interpretati come ora locale di Roma. Un lavaggio martedì dalle 00:00 alle 06:00 riguarda la notte fra lunedì e martedì.
 
@@ -82,6 +90,7 @@ Le scelte di consultazione vengono conservate in `localStorage`; sono lette anch
 Il codice e la documentazione originali del progetto sono distribuiti con [licenza MIT](LICENSE). I dati nei file JSON e GeoJSON mantengono le licenze riportate di seguito: la MIT non autorizza un uso commerciale dei calendari. Provenienza, trasformazioni e ambito delle licenze sono descritti in [DATA_LICENSE.md](DATA_LICENSE.md) e riassunti in [`metadata.json`](docs/assets/data/metadata.json); la libreria esterna è elencata in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 - [Pulizia Strade — Comune di Firenze / dati Alia](https://opendata.comune.fi.it/page_dataset_show?id=pulizia-strade), **CC BY-NC-SA 4.0**. La rappresentazione elaborata mantiene la stessa licenza; sono stati rimossi i duplicati esatti e arrotondate le coordinate a circa un metro.
+- [Tratti stradali — Comune di Firenze / Servizio Statistica e Toponomastica](https://opendata.comune.fi.it/page_dataset_show?id=73025d49-66ce-4906-93b8-1c4bc8d64234), **CC BY 4.0**. Dallo Shapefile sono estratte soltanto le geometrie aggiuntive dei nomi assenti nei calendari, senza dedurre turni di pulizia.
 - [Aree quartieri — Comune di Firenze](https://opendata.comune.fi.it/page_dataset_show?id=5e08844a-c0d8-4d64-a3b2-d1ab58d9283f), **CC BY 4.0**.
 - [Reticolo fluviale — Comune di Firenze / Autorità di Bacino del fiume Arno](https://opendata.comune.fi.it/page_dataset_show?id=84569d87-0b14-404e-adea-fd486c0a50b8), **CC BY 4.0**; selezionati i tratti denominati FIUME ARNO.
 

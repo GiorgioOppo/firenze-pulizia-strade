@@ -17,6 +17,7 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
   const roadLayer = map.append('g');
   const riskLayer = map.append('g');
   const checkLayer = map.append('g');
+  const missingLayer = map.append('g');
   const highlights = map.append('g');
   const labels = svg.append('g').attr('pointer-events', 'none');
   const projection = d3.geoMercator();
@@ -68,14 +69,17 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
     return selectedName === null ? [] : roadsByName.get(selectedName) || [];
   }
 
+  function roadStatus(road) {
+    return road.properties.schedule.length ? statuses?.[road.properties.index] : 3;
+  }
+
   function drawStatusLayers() {
     for (const [layer, status, className] of [
       [riskLayer, 2, 'fl-risk'],
       [checkLayer, 1, 'fl-check'],
+      [missingLayer, 3, 'fl-missing'],
     ]) {
-      const features = statuses
-        ? roads.filter(road => statuses[road.properties.index] === status)
-        : [];
+      const features = roads.filter(road => roadStatus(road) === status);
       layer.selectAll('path')
         .data([featureCollection(features)])
         .join('path')
@@ -102,17 +106,15 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
 
     // Draw the status last so a thick selection outline cannot conceal a
     // washing restriction or a schedule that still needs to be checked.
-    if (statuses) {
-      const marked = picked && !features.includes(picked)
-        ? [...features, picked]
-        : features;
-      for (const [status, className] of [[2, 'fl-risk'], [1, 'fl-check']]) {
-        highlights.append('path')
-          .attr('class', className)
-          .attr('d', path(featureCollection(
-            marked.filter(road => statuses[road.properties.index] === status),
-          )));
-      }
+    const marked = picked && !features.includes(picked)
+      ? [...features, picked]
+      : features;
+    for (const [status, className] of [[2, 'fl-risk'], [1, 'fl-check'], [3, 'fl-missing']]) {
+      highlights.append('path')
+        .attr('class', className)
+        .attr('d', path(featureCollection(
+          marked.filter(road => roadStatus(road) === status),
+        )));
     }
   }
 
@@ -123,7 +125,9 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
   function drawLabels() {
     labels.selectAll('*').remove();
     if (!width || !height || destroyed) return;
+    drawScale();
     const used = [];
+    const scaleWidth = root.querySelector('.fl-scale')?.getBoundingClientRect().width || 0;
 
     function addLabel(text, coordinates, className = '') {
       if (!coordinates?.every(Number.isFinite)) return;
@@ -145,6 +149,11 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
       x = Math.max(bounds.width / 2 + 6, Math.min(width - bounds.width / 2 - 6, x));
       label.attr('x', x);
       bounds = label.node().getBBox();
+      // The scale is an opaque overlay: do not let it hide part of a name.
+      if (bounds.y + bounds.height > height - 50 && bounds.x < scaleWidth + 24) {
+        label.remove();
+        return;
+      }
       const overlaps = used.some(previous =>
         bounds.x < previous.x + previous.width + 8
         && bounds.x + bounds.width + 8 > previous.x
@@ -222,7 +231,7 @@ export function createMap({ root, roads, base, onSelect, onViewChange }) {
       .attr('class', 'fl-river')
       .attr('d', path);
     roadLayer.selectAll('path')
-      .data([collection])
+      .data([featureCollection(roads.filter(road => road.properties.schedule.length))])
       .join('path')
       .attr('class', 'fl-road')
       .attr('d', path);
