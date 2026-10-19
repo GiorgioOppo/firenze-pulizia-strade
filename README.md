@@ -8,15 +8,64 @@ Il sito permette di impostare arrivo e partenza, cercare una strada e selezionar
 
 [Apri la mappa su GitHub Pages](https://giorgiooppo.github.io/firenze-pulizia-strade/).
 
-GitHub Pages pubblica la cartella `docs` del ramo `main`. Non occorrono un server applicativo, chiavi API o un processo di compilazione. `docs/index.html` contiene la pagina completa; `src/map.fragment.html` conserva la sorgente della visualizzazione.
+GitHub Pages pubblica la cartella `docs` del ramo `main`. Questa è l'unica sorgente del sito: HTML, CSS, JavaScript e dati sono in file distinti. Non occorrono un server applicativo, chiavi API o un processo di compilazione.
 
-Per provare il sito in locale:
+## Struttura del progetto
+
+```text
+docs/
+├── index.html              # Pagina e struttura semantica
+├── assets/
+│   ├── css/
+│   │   ├── base.css        # Tema, tipografia e layout
+│   │   └── map.css         # Mappa e pannelli
+│   ├── js/
+│   │   ├── app.js          # Avvio e coordinamento
+│   │   ├── calendar.js     # Ricorrenze e conflitti con la sosta
+│   │   ├── data.js         # Caricamento e decodifica dei dati
+│   │   ├── map.js          # Disegno della mappa e navigazione
+│   │   ├── ui.js           # Dettagli e selettore dei tratti
+│   │   ├── format.js       # Testi, date e orari
+│   │   └── storage.js      # Preferenze locali
+│   └── data/
+│       ├── streets.json    # Geometrie e calendari dei tratti
+│       ├── districts.geojson
+│       ├── river.geojson
+│       ├── labels.json
+│       └── metadata.json   # Conteggi, provenienza e licenze
+├── .nojekyll
+└── robots.txt
+scripts/
+└── check-site.mjs          # Controlli della struttura pubblicabile
+tests/
+├── calendar.test.js
+├── storage.test.js
+└── data.test.js
+package.json               # Comandi di sviluppo, senza dipendenze npm
+.github/                   # Modelli per issue e pull request
+```
+
+I moduli JavaScript usano import relativi; i dati vengono caricati dagli archivi locali in `docs/assets/data/`. I collegamenti funzionano anche nel sottopercorso del progetto su GitHub Pages. D3 7.9.0, caricato da CDN, è l'unica libreria esterna.
+
+## Sviluppo locale
+
+Per i controlli automatici serve **Node.js 20 o successivo**; per il server locale serve **Python 3**. Non è necessario eseguire `npm install`.
+
+```sh
+npm run check
+npm test
+npm run serve
+```
+
+Aprire [http://localhost:8000/](http://localhost:8000/) nel browser. `check` verifica la struttura e i riferimenti del sito; `test` esegue i test con il runner integrato di Node.js. Nessuno dei due comandi genera o compila file.
+
+Il comando `serve` equivale a:
 
 ```sh
 python3 -m http.server 8000 --directory docs
 ```
 
-Aprire http://localhost:8000/ nel browser.
+Per caricare D3 è necessaria una connessione Internet. La cartella `work/`, se presente, è ignorata da Git e non è necessaria per eseguire o pubblicare il sito.
 
 ## Dati e limiti
 
@@ -26,11 +75,11 @@ Le date e gli orari vengono interpretati come ora locale di Roma. Un lavaggio ma
 
 La mappa riguarda il lavaggio stradale: non indica disponibilità degli stalli, autorizzazioni ZTL, lato strada, eccezioni festive o altri divieti. Fa fede la segnaletica sul posto. Consultare anche gli [avvisi ufficiali Plures](https://www.plures.it/it-it/cittadini/cittadini/servizi/servizi-ai-cittadini/spazzamento-strade).
 
-Le scelte di consultazione vengono conservate nel browser. Nessun dato personale viene inviato dall'applicazione; il caricamento della pagina e delle librerie comporta le normali richieste a GitHub Pages e ai CDN indicati nella pagina.
+Le scelte di consultazione vengono conservate in `localStorage`; sono lette anche le preferenze salvate nel formato precedente. Nessun dato personale viene inviato dall'applicazione; il caricamento della pagina e di D3 comporta le normali richieste a GitHub Pages e a jsDelivr.
 
 ## Fonti e licenze
 
-Il codice e la documentazione originali del progetto sono distribuiti con [licenza MIT](LICENSE). I dati incorporati nei file HTML mantengono le licenze riportate di seguito: la MIT non autorizza un uso commerciale dei calendari. Provenienza, trasformazioni e ambito delle licenze sono descritti in [DATA_LICENSE.md](DATA_LICENSE.md); le librerie esterne sono elencate in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Il codice e la documentazione originali del progetto sono distribuiti con [licenza MIT](LICENSE). I dati nei file JSON e GeoJSON mantengono le licenze riportate di seguito: la MIT non autorizza un uso commerciale dei calendari. Provenienza, trasformazioni e ambito delle licenze sono descritti in [DATA_LICENSE.md](DATA_LICENSE.md) e riassunti in [`metadata.json`](docs/assets/data/metadata.json); la libreria esterna è elencata in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 - [Pulizia Strade — Comune di Firenze / dati Alia](https://opendata.comune.fi.it/page_dataset_show?id=pulizia-strade), **CC BY-NC-SA 4.0**. La rappresentazione elaborata mantiene la stessa licenza; sono stati rimossi i duplicati esatti e arrotondate le coordinate a circa un metro.
 - [Aree quartieri — Comune di Firenze](https://opendata.comune.fi.it/page_dataset_show?id=5e08844a-c0d8-4d64-a3b2-d1ab58d9283f), **CC BY 4.0**.

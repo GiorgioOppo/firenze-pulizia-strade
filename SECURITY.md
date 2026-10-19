@@ -4,7 +4,9 @@
 
 Viene mantenuta la versione corrente del ramo `main`, pubblicata su GitHub Pages. Non sono previste correzioni per copie precedenti del sito.
 
-Il progetto è statico: non ha account, backend o chiavi API. Le preferenze di consultazione vengono conservate nel browser; la pagina carica risorse da CDN esterni. Sono pertinenti, per esempio, esecuzione di script tramite dati non attendibili, esposizione delle preferenze locali o alterazione delle dipendenze.
+Il progetto è statico: non ha account, backend o chiavi API. I moduli JavaScript e i dati JSON/GeoJSON sono serviti dalla cartella `docs/` dello stesso sito; D3 7.9.0 viene caricato dal CDN jsDelivr. Non vengono interrogate automaticamente le fonti dei calendari.
+
+Le preferenze di consultazione sono conservate in `localStorage`, con lettura del formato precedente per mantenere le scelte già salvate. Sono pertinenti, per esempio, esecuzione di script tramite dati non attendibili, esposizione delle preferenze locali o alterazione delle dipendenze.
 
 ## Segnalazione riservata
 

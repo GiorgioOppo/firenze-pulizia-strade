@@ -1,0 +1,193 @@
+.fl-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  margin-bottom: 16px;
+}
+
+.fl-controls {
+  margin-bottom: 12px;
+}
+
+.fl-search {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fl-search label {
+  flex: 1;
+  min-width: 0;
+}
+
+.fl-result {
+  margin: 8px 0;
+}
+
+.fl-map {
+  position: relative;
+}
+
+.fl-map svg {
+  display: block;
+  width: 100%;
+  height: 490px;
+  touch-action: none;
+  background: var(--background);
+  cursor: grab;
+}
+
+.fl-map svg:active {
+  cursor: grabbing;
+}
+
+.fl-map path {
+  vector-effect: non-scaling-stroke;
+}
+
+.fl-map text {
+  fill: var(--muted-foreground);
+  font-size: 12px;
+  paint-order: stroke;
+  stroke: var(--background);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.fl-map text.fl-street {
+  fill: var(--foreground);
+}
+
+.fl-zoom {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 85%;
+}
+
+.fl-scale {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 2px 5px;
+  background: var(--background);
+}
+
+.fl-scale-bar {
+  height: 3px;
+  border-bottom: 2px solid var(--foreground);
+}
+
+.fl-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 10px 0;
+}
+
+.fl-key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fl-line {
+  width: 24px;
+  border-top: 3px solid var(--muted-foreground);
+}
+
+.fl-line.risk {
+  border-color: var(--viz-series-1);
+}
+
+.fl-line.check {
+  border-color: var(--viz-series-2);
+  border-top-style: dashed;
+}
+
+.fl-detail {
+  margin: 12px 0;
+}
+
+.fl-detail h2 {
+  margin: 0 0 5px;
+}
+
+.fl-detail ul {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.fl-detail li {
+  margin: 3px 0;
+}
+
+.fl-detail .form-label {
+  margin-top: 12px;
+}
+
+.fl-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 10px;
+}
+
+.fl-district {
+  fill: color-mix(in srgb, var(--muted) 18%, transparent);
+  stroke: var(--border);
+  stroke-width: 1px;
+}
+
+.fl-river {
+  fill: none;
+  stroke: color-mix(in srgb, var(--blue) 40%, transparent);
+  stroke-width: 3px;
+}
+
+.fl-road {
+  fill: none;
+  stroke: var(--muted-foreground);
+  stroke-width: 1.2px;
+  opacity: 0.65;
+}
+
+.fl-risk {
+  fill: none;
+  stroke: var(--viz-series-1);
+  stroke-width: 2.4px;
+}
+
+.fl-check {
+  fill: none;
+  stroke: var(--viz-series-2);
+  stroke-width: 2.1px;
+  stroke-dasharray: 4 3;
+}
+
+.fl-highlight {
+  fill: none;
+  stroke: var(--foreground);
+  stroke-width: 3.8px;
+}
+
+.fl-picked {
+  fill: none;
+  stroke: var(--foreground);
+  stroke-width: 6px;
+}
+
+@media (max-width: 500px) {
+  .fl-map svg {
+    height: 420px;
+  }
+}

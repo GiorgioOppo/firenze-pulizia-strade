@@ -2,6 +2,15 @@
 
 ## 2026-10-19
 
+### Ristrutturazione del sito
+
+- Unica sorgente pubblicata in `docs/`, con HTML semantico e file CSS, JavaScript e dati separati.
+- Moduli distinti per avvio, calendario, dati, mappa, interfaccia, formattazione e preferenze locali.
+- Archivi JSON/GeoJSON locali per tratti, quartieri, Arno, etichette e metadati; fonti e licenze invariate.
+- Rimosso il frammento duplicato in `src/` e il contenitore di esportazione Codex, con le dipendenze Floating UI e Lucide; D3 resta l'unica libreria esterna.
+- Preferenze in `localStorage`, con lettura del formato precedente.
+- Controllo della struttura del sito, test automatici con Node.js e comandi di sviluppo senza compilazione o dipendenze npm.
+
 ### Documentazione del repository
 
 - Licenza MIT per il codice originale e descrizione distinta delle licenze dei dati.

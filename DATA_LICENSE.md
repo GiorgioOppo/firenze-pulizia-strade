@@ -1,6 +1,8 @@
 # Licenze e provenienza dei dati
 
-La [licenza MIT](LICENSE) del codice originale del progetto non si applica ai dati geografici, ai calendari o ai componenti di terze parti. Questi materiali mantengono le rispettive licenze anche quando sono incorporati nello stesso file HTML.
+La [licenza MIT](LICENSE) del codice originale del progetto non si applica ai dati geografici, ai calendari o ai componenti di terze parti. Questi materiali mantengono le rispettive licenze.
+
+La copia pubblicata è archiviata in `docs/assets/data/`: `streets.json` contiene tratti e calendari, `districts.geojson` i quartieri, `river.geojson` l'Arno e `labels.json` le etichette. [`metadata.json`](docs/assets/data/metadata.json) conserva il riepilogo delle fonti, delle date, delle licenze e dei conteggi. La separazione in file distinti non modifica le licenze né la data della copia; il sito carica questi file locali senza aggiornare automaticamente le fonti.
 
 ## Calendari di pulizia strade
 

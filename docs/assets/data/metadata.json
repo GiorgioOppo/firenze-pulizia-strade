@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-10-19",
+  "generated_at": "2026-10-19T01:03:03.105Z",
+  "automatic_updates": false,
+  "counts": {
+    "source_records": 6269,
+    "streets": 1537,
+    "road_segments": 5576,
+    "schedules": 189,
+    "segment_schedule_pairs": 6249
+  },
+  "coordinate_encoding": {
+    "crs": "EPSG:4326",
+    "longitude_origin": 11,
+    "latitude_origin": 43,
+    "scale": 100000,
+    "order": [
+      "longitude",
+      "latitude"
+    ]
+  },
+  "sources": [
+    {
+      "title": "Pulizia Strade",
+      "publisher": "Comune di Firenze / dati Alia",
+      "url": "https://opendata.comune.fi.it/page_dataset_show?id=pulizia-strade",
+      "download": "https://datigis.comune.fi.it/json/alia_spazzamenti.json",
+      "license": "CC BY-NC-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "files": [
+        "streets.json"
+      ],
+      "processing": "Raggruppamento per cod_arco, rimozione duplicati esatti, conservazione turni distinti, coordinate WGS84 a cinque decimali."
+    },
+    {
+      "files": [
+        "districts.geojson",
+        "labels.json"
+      ],
+      "title": "Aree quartieri",
+      "publisher": "Comune di Firenze",
+      "url": "https://opendata.comune.fi.it/page_dataset_show?id=5e08844a-c0d8-4d64-a3b2-d1ab58d9283f",
+      "download": "https://datigis.comune.fi.it/kml/quartieri.kmz",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "original_dataset_modified": "2012-02-16",
+      "processing": "KML WGS84 converted to GeoJSON; lon/lat rounded to 6 decimals; district label points from original KML Point elements."
+    },
+    {
+      "files": [
+        "river.geojson"
+      ],
+      "title": "Reticolo fluviale (Sistema delle Acque)",
+      "publisher": "Comune di Firenze - Direzione Sistemi Informativi",
+      "rightsHolder": "Autorità di Bacino del fiume Arno",
+      "url": "https://opendata.comune.fi.it/page_dataset_show?id=84569d87-0b14-404e-adea-fd486c0a50b8",
+      "download": "https://datigis.comune.fi.it/kml/reticolo_fluviale.kmz",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "original_dataset_modified": "2013-01-16",
+      "processing": "Selected 17 original line features whose source attribute NOME ELEMENTO NEL SISTEMA INFORMATIVO ACQUE equals FIUME ARNO; KML WGS84 converted to GeoJSON; lon/lat rounded to 6 decimals."
+    }
+  ]
+}

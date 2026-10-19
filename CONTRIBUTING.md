@@ -17,22 +17,28 @@ Una foto leggibile del cartello o un collegamento a una fonte ufficiale può aiu
 ## Preparare una modifica
 
 1. Creare un fork e un ramo dedicato alla modifica.
-2. Modificare la sorgente in `src/map.fragment.html`. La pagina pubblicata da GitHub Pages è invece `docs/index.html`, un export HTML completo che include la visualizzazione e il suo contenitore.
-3. Se cambia la mappa, aggiornare anche `docs/index.html` e verificare il risultato effettivamente pubblicabile. Copiare il frammento al posto della pagina completa non conserva il contenitore necessario. Il repository non include attualmente un comando di export portabile: descrivere nella pull request il procedimento usato per mantenere i due file coerenti.
-4. Aggiornare la documentazione interessata. Per modifiche ai dati, registrare fonte, data di acquisizione, trasformazioni effettuate e variazioni dei conteggi nel README e in [DATA_LICENSE.md](DATA_LICENSE.md).
+2. Modificare direttamente i file in `docs/`, l'unica sorgente pubblicata del sito. La struttura HTML è in `docs/index.html`, gli stili in `docs/assets/css/`, i moduli JavaScript in `docs/assets/js/` e i dati in `docs/assets/data/`.
+3. Eseguire `npm run check` e `npm test`, quindi provare il sito con `npm run serve`. Non è previsto un passaggio di build o di esportazione.
+4. Aggiornare la documentazione interessata. Per modifiche ai dati, registrare fonte, data di acquisizione, trasformazioni effettuate e variazioni dei conteggi nel README, in [DATA_LICENSE.md](DATA_LICENSE.md) e in `docs/assets/data/metadata.json`.
 5. Aprire una pull request con una breve descrizione del problema, della soluzione e delle verifiche svolte.
 
 La cartella `work/` è ignorata da Git e non è disponibile in un normale clone. Una modifica non deve dipendere da suoi file o da percorsi locali del computer di chi contribuisce.
 
 ## Provare il sito
 
-Dalla radice del repository, con Python 3 installato:
+Dalla radice del repository, con Node.js 20 o successivo e Python 3 installati:
 
 ```sh
-python3 -m http.server 8000 --directory docs
+npm run check
+npm test
+npm run serve
 ```
 
-Aprire [http://localhost:8000/](http://localhost:8000/) nel browser. Le librerie esterne richiedono una connessione Internet. Non è presente una suite di test automatica: riportare le prove manuali pertinenti alla modifica.
+Non occorre installare dipendenze npm. `check` controlla la struttura pubblicabile e i riferimenti locali; `test` usa il runner integrato di Node.js per calendario, preferenze e dati. Aggiungere o aggiornare test quando cambia il comportamento di questi moduli. I controlli non producono file compilati.
+
+Aprire [http://localhost:8000/](http://localhost:8000/) nel browser. `serve` avvia `python3 -m http.server 8000 --directory docs`. D3 viene caricato da CDN e richiede una connessione Internet. Riportare nella pull request anche le prove manuali pertinenti alla modifica.
+
+Mantenere relativi gli import, i collegamenti agli asset e i percorsi dei dati, in modo che il sito funzioni nel sottopercorso di GitHub Pages. I dati pubblicati sono file locali: una modifica non deve introdurre aggiornamenti automatici dalle fonti senza documentarne il comportamento.
 
 Per modifiche all'interfaccia, controllare almeno ricerca di una via esistente e di un nome assente, scelta del singolo tratto, zoom, selezione sulla mappa e leggibilità su uno schermo stretto. Verificare anche che i campi e i pulsanti principali siano raggiungibili con la tastiera e che la console del browser non segnali errori.
 
@@ -51,4 +57,4 @@ I calcoli usano date e ore locali di Roma. Se la modifica riguarda le date, veri
 
 Conservare tutti i turni distinti associati a un tratto e mantenere esplicite le incertezze del dataset. Non aggiungere dati di cui non sia verificabile la provenienza o che non possano essere redistribuiti con il progetto.
 
-Il codice originale è disciplinato da [LICENSE](LICENSE); i dati incorporati e le componenti esterne seguono le rispettive condizioni descritte in [DATA_LICENSE.md](DATA_LICENSE.md) e [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Contribuire solo materiale che si ha diritto di condividere e indicare nella pull request eventuali attribuzioni richieste.
+Il codice originale è disciplinato da [LICENSE](LICENSE); i dati JSON/GeoJSON e la libreria esterna seguono le rispettive condizioni descritte in [DATA_LICENSE.md](DATA_LICENSE.md) e [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Contribuire solo materiale che si ha diritto di condividere e indicare nella pull request eventuali attribuzioni richieste.
